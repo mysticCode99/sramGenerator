@@ -63,6 +63,11 @@ class Painter(pqtw.QWidget):
         self.layers['test']['shapes'] = []
         self.update()
     
+    def get_layers(self):
+        ''''''
+        for layer in self.layer_ordering:
+            yield layer
+
     def paintEvent(self, event):
         ''''''
         qp = QPainter(self)
@@ -72,14 +77,8 @@ class Painter(pqtw.QWidget):
             qp.setBrush(brush)
             for shape in shapes:
                 qp.drawRect(shape)
-        qp.setPen(QPen(Qt.red))
-        qp.drawRect(self.r.normalized())
+        # qp.drawRect(self.r.normalized())
     
-    def get_layers(self):
-        ''''''
-        for layer in self.layer_ordering:
-            yield layer
-
     def mousePressEvent(self, event):
         '''
         Start drawing when pressed left button of mouse 
@@ -88,6 +87,7 @@ class Painter(pqtw.QWidget):
             self.r = QRect()
             self.r.setTopLeft(event.pos())
             self.r.setBottomRight(event.pos())
+            self.layers['test']['shapes'].append(self.r)
         self.update()
 
     def mouseMoveEvent(self, event):
@@ -103,7 +103,6 @@ class Painter(pqtw.QWidget):
         '''
         Adding rect to list 
         '''
-        self.layers['test']['shapes'].append(self.r)
         self.r = QRect()
         print('mouseReleaseEvent')
         self.update()

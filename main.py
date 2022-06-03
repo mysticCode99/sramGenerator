@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QHBoxLayout
 import PyQt5.QtWidgets as qtw
 import PyQt5.QtGui as qtg
 
-from GraphicInterfaces.layout_editor import Layout_Editor
+from GraphicInterfaces.main_widget import Main_Widget
 
 class Window(QMainWindow):
     def __init__(self):
@@ -19,7 +19,7 @@ class Window(QMainWindow):
         height = 500
         self.setGeometry(100, 100, width, height)
 
-        window = Layout_Editor()
+        window = Main_Widget()
         self.setCentralWidget(window)
 
 if __name__ == '__main__':

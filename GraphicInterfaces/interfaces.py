@@ -28,7 +28,7 @@ class LayoutEditorForm(QWidget):
         # adding content
         layer_search = QLineEdit()
         self.layout.addRow(layer_search)
-        layer_search.textChanged.connect(self.update_layer_btns_list)
+        layer_search.textChanged[str].connect(self.update_layer_btns_list)
 
         self.btns = {}
         for layer in self.display.get_layers():
@@ -38,14 +38,17 @@ class LayoutEditorForm(QWidget):
             self.layout.addRow(btn)
             pass
 
-    def update_layer_btns_list(self):
+    def update_layer_btns_list(self, text):
         ''''''
-        print('hsjfkal')
-        pass
+        for btn_name in self.btns.keys():
+            if btn_name.startswith(text):
+                self.btns[btn_name].show()
+            else:
+                self.btns[btn_name].hide()
 
-    def layer_selected(self):
+    def layer_selected(self, text):
         ''''''
-        print('hsjfkal')
+        print('hsjfkal, text')
         pass
 
     def updateDisplayView(self):
