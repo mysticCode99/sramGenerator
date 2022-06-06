@@ -31,9 +31,13 @@ class LayoutEditorForm(QWidget):
         layer_search.textChanged[str].connect(self.update_layer_btns_list)
 
         self.btns = {}
+        self.btn_grp = QButtonGroup()
+        self.btn_grp.buttonClicked[int].connect(self.layer_selected)
+        id = 0
         for layer in self.display.get_layers():
             btn = QPushButton(layer)
-            btn.clicked.connect(self.layer_selected)
+            self.btn_grp.addButton(btn, id)
+            id += 1
             self.btns[layer] = btn
             self.layout.addRow(btn)
             pass
@@ -48,7 +52,9 @@ class LayoutEditorForm(QWidget):
 
     def layer_selected(self, text):
         ''''''
-        print('hsjfkal, text')
+        for btn in self.btn_grp.buttons():
+            if btn is self.btn_grp.button(text):
+                self.display.set_draw_layer(btn.text())
         pass
 
     def updateDisplayView(self):
