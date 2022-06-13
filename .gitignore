@@ -1,3 +1,6 @@
 tests
 notes
 */__pycache__
+.sram_generator.config
+techfiles
+sram_gereator_work_directory
