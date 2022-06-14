@@ -25,6 +25,7 @@ class Library(QWidget):
         # lib list
         self.lib_list_lay = QVBoxLayout()
         self.lib_search = QLineEdit()
+        self.lib_search.textChanged[str].connect(self.filter_list)
         self.lib_list = QListWidget()
         self.lib_list.itemClicked.connect(self.selected_lib)
         self.lib_list.addItems(self.workdir.get_libs())
@@ -36,6 +37,7 @@ class Library(QWidget):
         # block list
         self.block_list_lay = QVBoxLayout()
         self.block_search = QLineEdit()
+        self.block_search.textChanged[str].connect(self.filter_list)
         self.block_list = QListWidget()
         self.block_list.itemClicked.connect(self.selected_block)
         self.block_list_lay.addWidget(QLabel('Blocks list'))
@@ -46,6 +48,7 @@ class Library(QWidget):
         # cell list
         self.cell_list_lay = QVBoxLayout()
         self.cell_search = QLineEdit()
+        self.cell_search.textChanged[str].connect(self.filter_list)
         self.cell_list = QListWidget()
         self.cell_list.itemClicked.connect(self.selected_cell)
         self.cell_list_lay.addWidget(QLabel('Cells list'))
@@ -59,6 +62,10 @@ class Library(QWidget):
 
         # Adding compile layout
         self.setLayout(layout)
+    
+    def filter_list(self, name):
+        '''Filter list names'''
+        print(name)
 
     def selected_lib(self, lib):
         '''Add blocks to block list when chosed lib'''
