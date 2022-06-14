@@ -64,6 +64,7 @@ class Library(QWidget):
         '''Add blocks to block list when chosed lib'''
         self.selected_lib_name = lib.text()
         self.block_list.clear()
+        self.cell_list.clear()
         lib_data = self.workdir.libs_data[self.selected_lib_name]
         self.block_list.addItems(lib_data['blocks'])
 
@@ -103,12 +104,14 @@ class Library(QWidget):
     
     def add_block(self, lib_name, block_name):
         '''Adding block'''
-        self.block_list.addItem(block_name)
+        if self.lib_list.currentIndex == lib_name:
+            self.block_list.addItem(block_name)
         self.workdir.add_block(lib_name, block_name)
 
     def add_cell(self, lib_name, block_name, cell_name):
         '''Adding cell'''
-        self.cell_list.addItem(cell_name)
+        if self.block_list.currentItem == block_name:
+            self.cell_list.addItem(cell_name)
         self.workdir.add_cell(lib_name, block_name, cell_name)
 
 class Edit_Library_List(QDialog):
@@ -176,7 +179,9 @@ class Edit_Library_List(QDialog):
             self.root_widget.add_block(lib_name, block_name)
         elif self.mode == 'add cell':
             cell_name = self.name.text()
-            print(cell_name)
-            # self.root_widget.add_cell()
+            lib_name = self.libsb.currentText()
+            block_name = self.blocksb.currentText()
+            print(lib_name, block_name, cell_name)
+            self.root_widget.add_cell(lib_name, block_name, cell_name)
             pass
         self.close()

@@ -117,8 +117,20 @@ class WorkArea(object):
         adding to lib.defs file
         '''
         os.makedirs(self.path + f'/{lib_name}/{block_name}', exist_ok=True)
-        self.libs_data[lib_name]['blocks'][block_name] = {}
-        self.libs_data[lib_name]['blocks'][block_name]['path'] = f'{self.path}/{lib_name}/{block_name}'
+        self.libs_data[lib_name]['blocks'][block_name] = {
+            'path' : f'{self.path}/{lib_name}/{block_name}',
+            'cells' : {}
+        }
+    
+    def add_cell(self, lib_name, block_name, cell_name):
+        '''
+        Creating library directory and 
+        adding to lib.defs file
+        '''
+        os.makedirs(self.path + f'/{lib_name}/{block_name}', exist_ok=True)
+        self.libs_data[lib_name]['blocks'][block_name]['cells'][cell_name] = {
+            'path' : f'{self.path}/{lib_name}/{block_name}'
+        }
     
     def get_lib_data(self, lib_name):
         '''

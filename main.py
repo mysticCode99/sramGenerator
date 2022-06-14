@@ -3,8 +3,6 @@ from curses import window
 import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
-import PyQt5.QtWidgets as qtw
-import PyQt5.QtGui as qtg
 
 from GraphicInterfaces.main_widget import Main_Widget
 from VLSI.work_area import WorkArea
