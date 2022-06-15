@@ -23,34 +23,34 @@ class Library(QWidget):
         layout = QHBoxLayout()
 
         # lib list
-        self.lib_list_lay = QVBoxLayout()
         self.lib_search = QLineEdit()
-        self.lib_search.textChanged[str].connect(self.filter_list)
+        self.lib_search.textChanged[str].connect(lambda n: self.filter_list(n, self.lib_list))
         self.lib_list = QListWidget()
         self.lib_list.itemClicked.connect(self.selected_lib)
         self.lib_list.addItems(self.workdir.get_libs())
+        self.lib_list_lay = QVBoxLayout()
         self.lib_list_lay.addWidget(QLabel('Libs list'))
         self.lib_list_lay.addWidget(self.lib_search)
         self.lib_list_lay.addWidget(self.lib_list)
         layout.addLayout(self.lib_list_lay, 25)
 
         # block list
-        self.block_list_lay = QVBoxLayout()
         self.block_search = QLineEdit()
-        self.block_search.textChanged[str].connect(self.filter_list)
+        self.block_search.textChanged[str].connect(lambda n: self.filter_list(n, self.block_list))
         self.block_list = QListWidget()
         self.block_list.itemClicked.connect(self.selected_block)
+        self.block_list_lay = QVBoxLayout()
         self.block_list_lay.addWidget(QLabel('Blocks list'))
         self.block_list_lay.addWidget(self.block_search)
         self.block_list_lay.addWidget(self.block_list)
         layout.addLayout(self.block_list_lay, 25)
 
         # cell list
-        self.cell_list_lay = QVBoxLayout()
         self.cell_search = QLineEdit()
-        self.cell_search.textChanged[str].connect(self.filter_list)
+        self.cell_search.textChanged[str].connect(lambda n: self.filter_list(n, self.cell_list))
         self.cell_list = QListWidget()
         self.cell_list.itemClicked.connect(self.selected_cell)
+        self.cell_list_lay = QVBoxLayout()
         self.cell_list_lay.addWidget(QLabel('Cells list'))
         self.cell_list_lay.addWidget(self.cell_search)
         self.cell_list_lay.addWidget(self.cell_list)
@@ -63,9 +63,10 @@ class Library(QWidget):
         # Adding compile layout
         self.setLayout(layout)
     
-    def filter_list(self, name):
+    def filter_list(self, name, list):
         '''Filter list names'''
         print(name)
+        print(list.findItems(name))
 
     def selected_lib(self, lib):
         '''Add blocks to block list when chosed lib'''
@@ -140,11 +141,19 @@ class Edit_Library_List(QDialog):
 
         self.name = QLineEdit()
         self.libsb = QComboBox()
+        self.libsb.setLineEdit(QLineEdit())
         self.libsb.addItems(self.libs_data.keys())
         self.blocksb = QComboBox()
+        self.blocksb.setLineEdit(QLineEdit())
         lb_name = self.libsb.currentText()
-        self.blocksb.addItems(self.libs_data[lb_name]['blocks'].keys())
+
+        # adding blocks to block list
+        if self.libs_data:
+            self.blocksb.addItems(self.libs_data[lb_name]['blocks'].keys())
+        else:
+            self.blocksb.addItems([])
         
+        # checking mode for assembling layout
         if self.mode == 'add lib':
             selectLay.addWidget(QLabel('Enter lib name'), 1, 1)
             selectLay.addWidget(self.name, 1, 2)
